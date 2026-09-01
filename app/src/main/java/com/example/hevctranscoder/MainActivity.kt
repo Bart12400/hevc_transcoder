@@ -6,10 +6,10 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import io.deepmedia.transcoder.Transcoder
-import io.deepmedia.transcoder.TranscoderListener
-import io.deepmedia.transcoder.strategy.DefaultVideoStrategy
-import io.deepmedia.transcoder.strategy.size.AtMostResizer
+import com.otaliastudios.transcoder.Transcoder
+import com.otaliastudios.transcoder.TranscoderListener
+import com.otaliastudios.transcoder.strategy.DefaultVideoStrategy
+import com.otaliastudios.transcoder.strategy.size.AtMostResizer
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
