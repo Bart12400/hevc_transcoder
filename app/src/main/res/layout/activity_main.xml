@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#121212">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="HEVC Native v2"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/tvFolderPath"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="/sdcard/DCIM/Camera"
+            android:textColor="#CCCCCC"
+            android:textSize="12sp"
+            android:maxLines="2"
+            android:ellipsize="middle" />
+
+        <Button
+            android:id="@+id/btnChangeFolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zmień"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#1E1E1E"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:id="@+id/tvCurrentFileHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status: Czekam na rozpoczęcie..."
+            android:textColor="#4CAF50"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCurrentFileDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rozdzielczość: -\nKodek: - -> HEVC | Audio: - -> AAC 64k"
+            android:textColor="#AAAAAA"
+            android:textSize="12sp"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBarFile"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/tvFileSpeedEta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Postęp: 0% | Speed: 0.00x | ETA: --:--"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:gravity="end"
+            android:paddingTop="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="12dp">
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Start Skanowania"
+            android:backgroundTint="#2E7D32" />
+
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Zatrzymaj"
+            android:enabled="false"
+            android:backgroundTint="#C62828"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollViewLogs"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#000000"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tvLogConsole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:text="> Gotowy do skanowania...\n"
+            android:textColor="#00FF00"
+            android:textSize="11sp" />
+    </ScrollView>
+
+</LinearLayout>
