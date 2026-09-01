@@ -1,10 +1,13 @@
 package com.example.hevc_transcoder
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.Settings
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.ScrollView
@@ -54,10 +57,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkPermissions() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                    data = Uri.parse("package:$packageName")
+                }
+                startActivity(intent)
             }
+        } else {
+            val permissions = mutableListOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                permissions.add(Manifest.permission.READ_MEDIA_VIDEO)
+                permissions.add(Manifest.permission.READ_MEDIA_AUDIO)
+            }
+            ActivityCompat.requestPermissions(this, permissions.toTypedArray(), 100)
         }
     }
 
@@ -82,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
             if (videoFiles.isEmpty()) {
                 appendLog("> Brak nowych plikow wideo do kompresji.")
-                runOnUiThread { stopBatchProcessing() }
+                runOnUiThread { resetUiState() }
                 return@thread
             }
 
@@ -92,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 if (!isProcessing) break
 
                 val outFile = File(file.parentFile, "${file.nameWithoutExtension}_HEVC.mp4")
-                
+
                 runOnUiThread {
                     tvCurrentFileHeader.text = "[${index + 1}/${videoFiles.size}] ${file.name}"
                     tvCurrentFileDetails.text = "Rozmiar: ${file.length() / (1024 * 1024)} MB -> ${outFile.name}"
@@ -120,16 +136,22 @@ class MainActivity : AppCompatActivity() {
             }
 
             appendLog("> Zakonczono cale zadanie.")
-            runOnUiThread { stopBatchProcessing() }
+            runOnUiThread { resetUiState() }
         }
     }
 
     private fun stopBatchProcessing() {
         isProcessing = false
         currentEngine?.cancel()
+        resetUiState()
+        appendLog("> Przerwano operacje.")
+    }
+
+    private fun resetUiState() {
         btnStart.isEnabled = true
         btnStop.isEnabled = false
-        tvCurrentFileHeader.text = "Status: Zatrzymano"
-        appendLog("> Przerwano operacje.")
+        if (!isProcessing) {
+            tvCurrentFileHeader.text = "Status: Bezczynny"
+        }
     }
 }
