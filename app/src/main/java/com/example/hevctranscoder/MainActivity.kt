@@ -35,9 +35,7 @@ class MainActivity : AppCompatActivity() {
         layout.addView(txtLog)
         setContentView(layout)
 
-        btnStart.setOnClickListener {
-            startTranscodingBatch()
-        }
+        btnStart.setOnClickListener { startTranscodingBatch() }
     }
 
     private fun startTranscodingBatch() {
@@ -48,11 +46,10 @@ class MainActivity : AppCompatActivity() {
         } ?: emptyArray()
 
         if (files.isEmpty()) {
-            txtLog.append("\n[INFO] Brak plików do przetwarzania w DCIM/Camera.")
+            txtLog.append("\n[INFO] Brak plików w DCIM/Camera.")
             btnStart.isEnabled = true
             return
         }
-
         processFile(files, 0)
     }
 
@@ -65,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         val file = files[index]
         val outFile = File(file.parent, "${file.nameWithoutExtension}_hevc.mp4")
-        txtLog.append("\n[${index + 1}/${files.size}] Kodowanie sprzętowe: ${file.name}")
+        txtLog.append("\n[${index + 1}/${files.size}] Kodowanie: ${file.name}")
 
         val strategy = DefaultVideoStrategy.Builder()
             .addResizer(AtMostResizer(1920))
