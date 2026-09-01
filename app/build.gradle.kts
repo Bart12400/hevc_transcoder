@@ -29,6 +29,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
 
-    // Prawidłowa paczka DeepMedia 0.11.1
-    api("io.deepmedia.community:transcoder-android:0.11.1")
+    // Używamy stabilnej paczki com.otaliastudios
+    api("com.otaliastudios:transcoder:0.11.1")
 }
