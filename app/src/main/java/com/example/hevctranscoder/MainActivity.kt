@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.otaliastudios.transcoder.Transcoder
 import com.otaliastudios.transcoder.TranscoderListener
 import com.otaliastudios.transcoder.strategy.DefaultVideoStrategy
-import com.otaliastudios.transcoder.strategy.size.AtMostResizer
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -64,8 +63,7 @@ class MainActivity : AppCompatActivity() {
         val outFile = File(file.parent, "${file.nameWithoutExtension}_hevc.mp4")
         txtLog.append("\n[${index + 1}/${files.size}] Kodowanie: ${file.name}")
 
-        val strategy = DefaultVideoStrategy.Builder()
-            .addResizer(AtMostResizer(1920))
+        val strategy = DefaultVideoStrategy.atMost(1920)
             .bitRate(2500000L)
             .build()
 
@@ -88,6 +86,12 @@ class MainActivity : AppCompatActivity() {
                         outFile.delete()
                         txtLog.append("\n [!] Odrzucono: Brak zysku > 40%")
                     }
+                    processFile(files, index + 1)
+                }
+
+                override fun onTranscodeCanceled() {
+                    txtLog.append("\n [!] Anulowano kodowanie.")
+                    if (outFile.exists()) outFile.delete()
                     processFile(files, index + 1)
                 }
 
