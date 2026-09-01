@@ -7,6 +7,7 @@ import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hevc_transcoder.R
 import java.io.File
 import kotlin.math.pow
 
