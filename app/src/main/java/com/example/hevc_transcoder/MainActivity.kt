@@ -1,6 +1,5 @@
 package com.example.hevc_transcoder
 
-// Clean Native MainActivity scaffold
 import android.os.Bundle
 import android.os.Environment
 import android.widget.Button
